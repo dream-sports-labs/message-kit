@@ -4,6 +4,11 @@
   <groupId>com.dream11</groupId>
   <artifactId>message-kit</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>${project.groupId}:${project.artifactId}</name>
+  <description>A lightweight Java library for working with message queues</description>
+  <url>https://github.com/dream-sports-labs/message-kit</url>
 
   <scm>
     <developerConnection>scm:git:https://github.com/dream-sports-labs/message-kit.git</developerConnection>
