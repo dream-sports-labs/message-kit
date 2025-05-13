@@ -1,7 +1,7 @@
 package com.dream11.queue;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
+import static org.awaitility.Awaitility.await;
 import static software.amazon.awssdk.services.sqs.model.QueueAttributeName.VISIBILITY_TIMEOUT;
 
 import com.dream11.queue.config.HeartbeatConfig;

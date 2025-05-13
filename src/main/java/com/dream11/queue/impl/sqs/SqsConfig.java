@@ -43,6 +43,6 @@ public class SqsConfig implements QueueConfig {
   @AllArgsConstructor
   public static class ReceiveConfig {
     /** The maximum number of messages to receive from the SQS queue. */
-    private int maxMessages = 1;
+    @Builder.Default private int maxMessages = 1;
   }
 }

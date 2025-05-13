@@ -8,7 +8,7 @@ import java.util.concurrent.CompletableFuture;
  *
  * @param <T> The type of message that this producer will handle.
  */
-public interface MessageProducer<T> {
+public interface MessageProducer<T> extends AutoCloseable {
   /**
    * Sends a message asynchronously to the message queue.
    *
