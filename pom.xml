@@ -57,6 +57,7 @@
     <junit-jupiter.version>5.12.2</junit-jupiter.version>
     <junit.version>4.13.2</junit.version>
     <assertj.version>3.27.3</assertj.version>
+    <awaitility.version>4.3.0</awaitility.version>
     <mockito-junit-jupiter.version>5.17.0</mockito-junit-jupiter.version>
 
     <!--  Plugins -->
@@ -65,8 +66,8 @@
     <maven.compiler.version>11</maven.compiler.version>
     <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
     <maven.lombok.plugin.version>1.18.20.0</maven.lombok.plugin.version>
-    <maven.surefire.plugin.version>3.0.0-M5</maven.surefire.plugin.version>
-    <maven.failsafe.plugin.version>3.0.0-M5</maven.failsafe.plugin.version>
+    <maven.surefire.plugin.version>3.2.5</maven.surefire.plugin.version>
+    <maven.failsafe.plugin.version>3.2.5</maven.failsafe.plugin.version>
     <maven.jacoco.plugin.version>0.8.8</maven.jacoco.plugin.version>
     <maven.source.plugin.version>3.3.1</maven.source.plugin.version>
     <maven.javadoc.plugin.version>3.11.2</maven.javadoc.plugin.version>
@@ -145,6 +146,13 @@
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
       <version>${assertj.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.awaitility</groupId>
+      <artifactId>awaitility</artifactId>
+      <version>${awaitility.version}</version>
       <scope>test</scope>
     </dependency>
 

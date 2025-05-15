@@ -25,4 +25,20 @@ class HeartbeatConfigTest {
     assertThat(heartbeatConfig.getHeartbeatInterval()).isEqualTo(-1);
     assertThat(heartbeatConfig.getExecutorThreadPoolSize()).isEqualTo(2);
   }
+
+  @Test
+  void testCustomValues() {
+    // Arrange
+    int customInterval = 30;
+    int customPoolSize = 5;
+    HeartbeatConfig heartbeatConfig =
+        HeartbeatConfig.builder()
+            .heartbeatInterval(customInterval)
+            .executorThreadPoolSize(customPoolSize)
+            .build();
+
+    // Act and Assert
+    assertThat(heartbeatConfig.getHeartbeatInterval()).isEqualTo(customInterval);
+    assertThat(heartbeatConfig.getExecutorThreadPoolSize()).isEqualTo(customPoolSize);
+  }
 }

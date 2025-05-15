@@ -23,7 +23,13 @@ public class SqsConsumer implements MessageConsumer<Message> {
   private final SqsClient sqsClient;
 
   @Getter private final SqsConfig sqsConfig;
-  private final Map<Message, ScheduledFuture<?>> heartbeatFutures = new ConcurrentHashMap<>();
+
+  /**
+   * A map to store scheduled futures for heartbeats. The key is the message ID, and the value is
+   * the ScheduledFuture.
+   */
+  private final Map<String, ScheduledFuture<?>> heartbeatFutures = new ConcurrentHashMap<>();
+
   private final ScheduledExecutorService executorService;
 
   /**
@@ -99,9 +105,9 @@ public class SqsConsumer implements MessageConsumer<Message> {
         .deleteMessage(message)
         .thenAccept(
             v -> {
-              if (this.heartbeatFutures.containsKey(message)) {
-                this.heartbeatFutures.get(message).cancel(true);
-                this.heartbeatFutures.remove(message);
+              ScheduledFuture<?> future = this.heartbeatFutures.remove(message.messageId());
+              if (future != null) {
+                future.cancel(true);
               }
             });
   }
@@ -124,6 +130,7 @@ public class SqsConsumer implements MessageConsumer<Message> {
    */
   @Override
   public void close() {
+    this.heartbeatFutures.values().forEach(future -> future.cancel(true));
     this.executorService.shutdown();
     this.sqsClient.close();
   }
@@ -132,10 +139,16 @@ public class SqsConsumer implements MessageConsumer<Message> {
     messages.forEach(
         message ->
             this.heartbeatFutures.put(
-                message,
+                message.messageId(),
                 this.executorService.scheduleAtFixedRate(
-                    () -> this.sendHeartbeat(message),
-                    0,
+                    () -> {
+                      try {
+                        this.sendHeartbeat(message);
+                      } catch (Exception e) {
+                        log.error("Failed to send heartbeat for message: {}", message, e);
+                      }
+                    },
+                    this.getSqsConfig().getHeartbeatConfig().getHeartbeatInterval(),
                     this.getSqsConfig().getHeartbeatConfig().getHeartbeatInterval(),
                     TimeUnit.SECONDS)));
   }

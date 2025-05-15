@@ -36,3 +36,9 @@ jobs:
 
       - name: Run fmt-plugin check goal
         run: mvn com.spotify.fmt:fmt-maven-plugin:2.20:check
+
+      - name: Provide format fix instructions if check fails
+        if: failure()
+        run: |
+          echo "Formatting check failed. To fix formatting issues locally, run:"
+          echo "mvn com.spotify.fmt:fmt-maven-plugin:2.20:format"

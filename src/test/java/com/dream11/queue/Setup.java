@@ -14,7 +14,7 @@ import org.testcontainers.utility.DockerImageName;
 public class Setup
     implements BeforeAllCallback, AfterAllCallback, ExtensionContext.Store.CloseableResource {
   static boolean started = false;
-  public LocalStackContainer localStackContainer;
+  private LocalStackContainer localStackContainer;
 
   @Override
   public void afterAll(ExtensionContext extensionContext) {}
@@ -23,22 +23,22 @@ public class Setup
   public void beforeAll(ExtensionContext extensionContext) {
     if (!started) {
       DockerImageName localstackImage = DockerImageName.parse(Constants.LOCALSTACK_DOCKER_IMAGE);
-      localStackContainer =
+      this.localStackContainer =
           new LocalStackContainer(localstackImage)
               .withServices(LocalStackContainer.Service.SQS)
               .withStartupTimeout(Duration.ofSeconds(600));
 
-      localStackContainer.start();
+      this.localStackContainer.start();
 
-      String port = localStackContainer.getFirstMappedPort().toString();
+      String port = this.localStackContainer.getFirstMappedPort().toString();
       log.info("Started localstack sqs container on port:{}", port);
 
       System.setProperty(
           Constants.SQS_ENDPOINT,
-          localStackContainer.getEndpointOverride(LocalStackContainer.Service.SQS).toString());
-      System.setProperty(Constants.AWS_REGION, localStackContainer.getRegion());
-      System.setProperty(Constants.AWS_ACCESS_KEY_ID, localStackContainer.getAccessKey());
-      System.setProperty(Constants.AWS_SECRET_ACCESS_KEY, localStackContainer.getSecretKey());
+          this.localStackContainer.getEndpointOverride(LocalStackContainer.Service.SQS).toString());
+      System.setProperty(Constants.AWS_REGION, this.localStackContainer.getRegion());
+      System.setProperty(Constants.AWS_ACCESS_KEY_ID, this.localStackContainer.getAccessKey());
+      System.setProperty(Constants.AWS_SECRET_ACCESS_KEY, this.localStackContainer.getSecretKey());
 
       started = true;
       extensionContext.getRoot().getStore(GLOBAL).put("test", this);

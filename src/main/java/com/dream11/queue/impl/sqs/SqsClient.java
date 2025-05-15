@@ -60,13 +60,7 @@ public class SqsClient {
    * @return A CompletableFuture containing a list of received messages.
    */
   public CompletableFuture<List<Message>> receive() {
-    return this.sqsAsyncClient
-        .receiveMessage(
-            ReceiveMessageRequest.builder()
-                .queueUrl(this.sqsConfig.getQueueUrl())
-                .maxNumberOfMessages(this.sqsConfig.getReceiveConfig().getMaxMessages())
-                .build())
-        .thenApply(ReceiveMessageResponse::messages);
+    return this.receive(0);
   }
 
   /**

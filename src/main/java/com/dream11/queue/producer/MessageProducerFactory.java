@@ -3,6 +3,7 @@ package com.dream11.queue.producer;
 import com.dream11.queue.config.QueueConfig;
 import com.dream11.queue.impl.sqs.SqsConfig;
 import com.dream11.queue.impl.sqs.SqsProducer;
+import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -22,11 +23,10 @@ public class MessageProducerFactory {
    * @throws IllegalArgumentException if the provider type is invalid.
    * @param <T> The type of message that the producer will handle.
    */
-  @SuppressWarnings("unchecked")
-  public <T> MessageProducer<T> create(QueueConfig config) {
+  public <T> MessageProducer<T> create(@NonNull QueueConfig config) {
     switch (config.getProvider()) {
       case SQS:
-        return (MessageProducer<T>) new SqsProducer<>((SqsConfig) config);
+        return new SqsProducer<>((SqsConfig) config);
       default:
         throw new IllegalArgumentException(
             "Invalid message producer type: " + config.getProvider());
