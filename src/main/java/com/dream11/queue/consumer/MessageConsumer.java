@@ -9,7 +9,7 @@ import java.util.concurrent.CompletableFuture;
  *
  * @param <T> The type of message that this consumer will handle.
  */
-public interface MessageConsumer<T> {
+public interface MessageConsumer<T> extends AutoCloseable {
   /**
    * Receives a list of messages asynchronously. The number of messages received will depend on the
    * configuration of the consumer.

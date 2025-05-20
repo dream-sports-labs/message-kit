@@ -3,6 +3,7 @@ package com.dream11.queue.consumer;
 import com.dream11.queue.config.QueueConfig;
 import com.dream11.queue.impl.sqs.SqsConfig;
 import com.dream11.queue.impl.sqs.SqsConsumer;
+import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -23,7 +24,7 @@ public class MessageConsumerFactory {
    * @param <T> The type of message that the consumer will handle.
    */
   @SuppressWarnings("unchecked")
-  public <T> MessageConsumer<T> create(QueueConfig config) {
+  public <T> MessageConsumer<T> create(@NonNull QueueConfig config) {
     switch (config.getProvider()) {
       case SQS:
         return (MessageConsumer<T>) new SqsConsumer((SqsConfig) config);

@@ -80,6 +80,6 @@ public class SqsProducer<T> implements MessageProducer<T> {
    */
   @Override
   public void close() {
-    sqsClient.close();
+    this.sqsClient.close();
   }
 }
